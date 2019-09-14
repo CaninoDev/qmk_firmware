@@ -1,4 +1,4 @@
-![Prime_E Layout Image](https://i.imgur.com/QeEGLUi.png)
+![Prime_E Layout Image](https://i.imgur.com/BJtwcPJ.png)
 
 # The Half Deaf Chef Prime_E Layout
 
