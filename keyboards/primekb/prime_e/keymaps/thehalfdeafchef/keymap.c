@@ -24,14 +24,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     * |------+------+------+------+------+------|------+------+------+------+------+--------------|
     * | LS/( |   Z  |   X  |   C  |   V  |   B  | MO(3)|   N  |   M  |   ,  |   .  |   /  | RS/)  |
     * |------+------+------+------+------+------+------+------+------+------+------+------+-------|
-    * | Ctrl | Alt  |      |MO(2) |    MO(1)    |    Space    |    RALT     |      | LGUI | RGUI  |
+    * | Ctrl |L(GUI)|      |L_ALT |    MO(1)    |    Space    |    R_ALT    |      | MO(2)| R(GUI)  |
     * `-------------------------------------------------------------------------------------------'
     */
     LAYOUT(
             KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_DEL, KC_BSPC,
             KC_TAB, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_QUOT, KC_ENT,
             KC_LSPO, KC_Z, KC_X, KC_C, KC_V, KC_B, MO(3), KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSPC,
-            KC_LCTL, KC_LALT, MO(2), MO(1), KC_SPC, KC_RALT, KC_LGUI, KC_RGUI
+            KC_LCTL, KC_LGUI, KC_LALT, MO(1), KC_SPC, KC_RALT, MO(2), KC_RGUI
     ),
     /*
     * ,-------------------------------------------------------------------------------------------.
@@ -39,7 +39,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     * |------+------+------+------+------+-------------+------+------+------+------+--------------|
     * |   /  |   4  |   5  |   6  |   +  |      |  End | Left | Down | Right|   ;  |      Ins     |
     * |------+------+------+------+------+------|------+------+------+------+------+--------------|
-    * |   *  |   7  |   8  |   9  |   0  |      |      |      |      |   [  |   ]  |      |       |
+    * |   *  |   7  |   8  |   9  |   0  |      |      |      |      |   [  |   ]  |  \   |       |
     * |------+------+------+------+------+------+------+------+------+------+------+------+-------|
     * |BlTgle|BlCycl|      |      |             |             |             |      |      |       |
     * `-------------------------------------------------------------------------------------------'
@@ -47,7 +47,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYOUT(
             KC_NLCK, KC_P1, KC_P2, KC_P3, KC_PMNS, KC_TRNS, KC_HOME, KC_PGUP, KC_UP, KC_PGDN, KC_PSCR, KC_TRNS, KC_TRNS,
             KC_PSLS, KC_P4, KC_P5, KC_P6, KC_PPLS, KC_TRNS, KC_END, KC_LEFT, KC_DOWN, KC_RIGHT, KC_SCLN, KC_INS,
-            KC_PAST, KC_P7, KC_P8, KC_P9, KC_P0, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_LBRC, KC_RBRC, KC_TRNS, KC_TRNS,
+            KC_PAST, KC_P7, KC_P8, KC_P9, KC_P0, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_LBRC, KC_RBRC, KC_BSLS, KC_TRNS,
             BL_TOGG, BL_STEP, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
     ),
     /*
@@ -69,11 +69,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     /*
     * ,-------------------------------------------------------------------------------------------.
-    * |      |CA(F1)|CA(F2)|CA(F3)|CA(F4)|CA(F5)|CA(F6)|  `   |  !   |   #  |  $   |  +   |   ^   |
+    * |CA(F1)|CA(F2)|CA(F3)|CA(F4)|CA(F5)|CA(F6)|  `   |  !   |   #  |  $   |  +   |   ^   |      |
     * |------+------+------+------+------+-------------+------+------+------+------+--------------|
     * |      |      |      |      |      |      |      |  %   |  *   |   &  |   =  |              |
     * |------+------+------+------+------+------|------+------+------+------+------+--------------|
-    * |      |      |      |      |      |      |      |      |  _   |  -   |  @   |   ~  |  \    |
+    * |      |      |      |      |      |      |      |  _   |  -   |  @   |   ~  |  |   |
     * |------+------+------+------+------+------+------+------+------+------+------+------+-------|
     * |      |      |      |      |             |             |             |      |      |       |
     * `-------------------------------------------------------------------------------------------'
@@ -81,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LAYOUT(
             KC_TRNS, LCA_T(KC_F1), LCA_T(KC_F2), LCA_T(KC_F3), LCA_T(KC_F4), LCA_T(KC_F6), KC_GRV, KC_EXLM, KC_HASH, KC_DLR, KC_PLUS, KC_CIRC,
             KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_PERC, KC_ASTR, KC_AMPR, KC_EQL, KC_TRNS,
-            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_UNDS, KC_MINS, KC_AT, KC_TILDE, KC_BSLS,
+            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_UNDS, KC_MINS, KC_AT, KC_TILDE, KC_PIPE,
             KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
     )
 };
