@@ -15,6 +15,12 @@
  */
 #include QMK_KEYBOARD_H
 
+#define CON_F1 LCA_T(KC_F1)
+#define CON_F2 LCA_T(KC_F2)
+#define CON_F3 LCA_T(KC_F3)
+#define CON_F4 LCA_T(KC_F4)
+#define CON_F5 LCA_T(KC_F5)
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
     * ,-------------------------------------------------------------------------------------------.
@@ -28,10 +34,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     * `-------------------------------------------------------------------------------------------'
     */
     LAYOUT(
-            KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_DEL, KC_BSPC,
-            KC_TAB, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_QUOT, KC_ENT,
-            KC_LSPO, KC_Z, KC_X, KC_C, KC_V, KC_B, MO(3), KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSPC,
-            KC_LCTL, KC_LGUI, KC_LALT, MO(1), KC_SPC, KC_RALT, MO(2), KC_RGUI
+            KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R, KC_T,            KC_Y, KC_U, KC_I, KC_O, KC_P,    KC_DEL, KC_BSPC,
+            KC_TAB,  KC_A,    KC_S,    KC_D,    KC_F, KC_G,            KC_H, KC_J, KC_K, KC_L, KC_QUOT,         KC_ENT,
+            KC_LSPO, KC_Z,    KC_X,    KC_C,    KC_V, KC_B,    MO(3),  KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSPC,
+            KC_LCTL, KC_LGUI,          KC_LALT, LT(1, KC_DEL), KC_SPC,       KC_RALT,               LT(2, KC_RGUI),   KC_RGUI
     ),
     /*
     * ,-------------------------------------------------------------------------------------------.
@@ -69,9 +75,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     /*
     * ,-------------------------------------------------------------------------------------------.
-    * |CA(F1)|CA(F2)|CA(F3)|CA(F4)|CA(F5)|CA(F6)|  `   |  !   |   #  |  $   |  +   |   ^   |      |
+    * |      |CA(F1)|CA(F2)|CA(F3)|CA(F4)|CA(F5)|  `   |  !   |   #  |  $   |  +   |   ^   |      |
     * |------+------+------+------+------+-------------+------+------+------+------+--------------|
-    * |      |      |      |      |      |      |      |  %   |  *   |   &  |   =  |              |
+    * |      | F1   | F2   | F3   | F4   | F5   |      |  %   |  *   |   &  |   =  |              |
     * |------+------+------+------+------+------|------+------+------+------+------+--------------|
     * |      |      |      |      |      |      |      |  _   |  -   |  @   |   ~  |  |   |
     * |------+------+------+------+------+------+------+------+------+------+------+------+-------|
@@ -79,10 +85,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     * `-------------------------------------------------------------------------------------------'
     */
     LAYOUT(
-            KC_TRNS, LCA_T(KC_F1), LCA_T(KC_F2), LCA_T(KC_F3), LCA_T(KC_F4), LCA_T(KC_F6), KC_GRV, KC_EXLM, KC_HASH, KC_DLR, KC_PLUS, KC_CIRC,
-            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_PERC, KC_ASTR, KC_AMPR, KC_EQL, KC_TRNS,
-            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_UNDS, KC_MINS, KC_AT, KC_TILDE, KC_PIPE,
-            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+            KC_TRNS       , CON_F1      , CON_F2      , CON_F3      , CON_F4      , CON_F5      , KC_GRV,  KC_EXLM, KC_HASH, KC_DLR,  KC_PLUS, KC_CIRC,
+            KC_TRNS       , KC_F1       , KC_F2,        KC_F3,        KC_F4,        KC_F5,        KC_TRNS, KC_TRNS, KC_PERC, KC_ASTR, KC_AMPR, KC_EQL,   KC_TRNS,
+            KC_TRNS       , KC_TRNS     , KC_TRNS,      KC_TRNS,      KC_TRNS,      KC_TRNS,      KC_TRNS, KC_UNDS, KC_MINS, KC_AT,   KC_TILDE, KC_PIPE,
+            KC_TRNS       , KC_TRNS     , KC_TRNS,      KC_TRNS,      KC_TRNS,      KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
     )
 };
 
