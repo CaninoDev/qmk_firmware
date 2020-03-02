@@ -22,15 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string.h>
 
-#if defined(__AVR__)
-#    include <avr/io.h>
-#    include <avr/pgmspace.h>
-#elif defined(ESP8266)
-#    include <pgmspace.h>
-#else  // defined(ESP8266)
-#    define PROGMEM
+#include "progmem.h"
+#ifndef __AVR__
 #    define memcpy_P(des, src, len) memcpy(des, src, len)
-#endif  // defined(__AVR__)
+#endif
 
 // Used commands from spec sheet: https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf
 // for SH1106: https://www.velleman.eu/downloads/29/infosheets/sh1106_datasheet.pdf
@@ -392,6 +387,8 @@ void oled_write_char(const char data, bool invert) {
     static uint8_t oled_temp_buffer[OLED_FONT_WIDTH];
     memcpy(&oled_temp_buffer, oled_cursor, OLED_FONT_WIDTH);
 
+    _Static_assert(sizeof(font) >= ((OLED_FONT_END + 1 - OLED_FONT_START) * OLED_FONT_WIDTH), "OLED_FONT_END references outside array");
+
     // set the reder buffer data
     uint8_t cast_data = (uint8_t)data;  // font based on unsigned type for index
     if (cast_data < OLED_FONT_START || cast_data > OLED_FONT_END) {
@@ -431,6 +428,15 @@ void oled_write_ln(const char *data, bool invert) {
     oled_advance_page(true);
 }
 
+void oled_write_raw(const char *data, uint16_t size) {
+    if (size > OLED_MATRIX_SIZE) size = OLED_MATRIX_SIZE;
+    for (uint16_t i = 0; i < size; i++) {
+        if (oled_buffer[i] == data[i]) continue;
+        oled_buffer[i] = data[i];
+        oled_dirty |= (1 << (i / OLED_BLOCK_SIZE));
+    }
+}
+
 #if defined(__AVR__)
 void oled_write_P(const char *data, bool invert) {
     uint8_t c = pgm_read_byte(data);
@@ -443,6 +449,16 @@ void oled_write_P(const char *data, bool invert) {
 void oled_write_ln_P(const char *data, bool invert) {
     oled_write_P(data, invert);
     oled_advance_page(true);
+}
+
+void oled_write_raw_P(const char *data, uint16_t size) {
+    if (size > OLED_MATRIX_SIZE) size = OLED_MATRIX_SIZE;
+    for (uint16_t i = 0; i < size; i++) {
+        uint8_t c = pgm_read_byte(++data);
+        if (oled_buffer[i] == c) continue;
+        oled_buffer[i] = c;
+        oled_dirty |= (1 << (i / OLED_BLOCK_SIZE));
+    }
 }
 #endif  // defined(__AVR__)
 
