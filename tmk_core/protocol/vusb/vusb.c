@@ -608,84 +608,30 @@ const PROGMEM usbStringDescriptor_t usbStringDescriptorSerial = {
 /*
  * Device descriptor
  */
-const PROGMEM usbDeviceDescriptor_t usbDeviceDescriptor = {
-    .header = {
-        .bLength         = sizeof(usbDeviceDescriptor_t),
-        .bDescriptorType = USBDESCR_DEVICE
-    },
-    .bcdUSB              = 0x0110,
-    .bDeviceClass        = 0x00,
-    .bDeviceSubClass     = 0x00,
-    .bDeviceProtocol     = 0x00,
-    .bMaxPacketSize0     = 8,
-    .idVendor            = VENDOR_ID,
-    .idProduct           = PRODUCT_ID,
-    .bcdDevice           = DEVICE_VER,
-    .iManufacturer       = 0x01,
-    .iProduct            = 0x02,
-#if defined(SERIAL_NUMBER)
-    .iSerialNumber       = 0x03,
-#else
-    .iSerialNumber       = 0x00,
-#endif
-    .bNumConfigurations  = 1
-};
-
-/*
- * Configuration descriptors
- */
-const PROGMEM usbConfigurationDescriptor_t usbConfigurationDescriptor = {
-    .header = {
-        .header = {
-            .bLength         = sizeof(usbConfigurationDescriptorHeader_t),
-            .bDescriptorType = USBDESCR_CONFIG
-        },
-        .wTotalLength        = sizeof(usbConfigurationDescriptor_t),
-        .bNumInterfaces      = TOTAL_INTERFACES,
-        .bConfigurationValue = 0x01,
-        .iConfiguration      = 0x00,
-        .bmAttributes        = (1 << 7) | USBATTR_REMOTEWAKE,
-        .bMaxPower           = USB_MAX_POWER_CONSUMPTION / 2
-    },
-
-#    ifndef KEYBOARD_SHARED_EP
-    /*
-     * Keyboard
-     */
-    .keyboardInterface = {
-        .header = {
-            .bLength         = sizeof(usbInterfaceDescriptor_t),
-            .bDescriptorType = USBDESCR_INTERFACE
-        },
-        .bInterfaceNumber    = KEYBOARD_INTERFACE,
-        .bAlternateSetting   = 0x00,
-        .bNumEndpoints       = 1,
-        .bInterfaceClass     = 0x03,
-        .bInterfaceSubClass  = 0x01,
-        .bInterfaceProtocol  = 0x01,
-        .iInterface          = 0x00
-    },
-    .keyboardHID = {
-        .header = {
-            .bLength         = sizeof(usbHIDDescriptor_t),
-            .bDescriptorType = USBDESCR_HID
-        },
-        .bcdHID              = 0x0101,
-        .bCountryCode        = 0x00,
-        .bNumDescriptors     = 1,
-        .bDescriptorType     = USBDESCR_HID_REPORT,
-        .wDescriptorLength   = sizeof(keyboard_hid_report)
-    },
-    .keyboardINEndpoint = {
-        .header = {
-            .bLength         = sizeof(usbEndpointDescriptor_t),
-            .bDescriptorType = USBDESCR_ENDPOINT
-        },
-        .bEndpointAddress    = (USBRQ_DIR_DEVICE_TO_HOST | 1),
-        .bmAttributes        = 0x03,
-        .wMaxPacketSize      = 8,
-        .bInterval           = USB_POLLING_INTERVAL_MS
-    },
+#if USB_CFG_DESCR_PROPS_CONFIGURATION
+const PROGMEM char usbDescriptorConfiguration[] = {
+    /* USB configuration descriptor */
+    9,               /* sizeof(usbDescriptorConfiguration): length of descriptor in bytes */
+    USBDESCR_CONFIG, /* descriptor type */
+#    if defined(MOUSE_ENABLE) || defined(EXTRAKEY_ENABLE)
+    59,  // 9 + (9 + 9 + 7) + (9 + 9 + 7)
+#    else
+    34,  // 9 + (9 + 9 + 7)
+#    endif
+    0,
+// 18 + 7 * USB_CFG_HAVE_INTRIN_ENDPOINT + 7 * USB_CFG_HAVE_INTRIN_ENDPOINT3 + 9, 0,
+/* total length of data returned (including inlined descriptors) */
+#    if defined(MOUSE_ENABLE) || defined(EXTRAKEY_ENABLE)
+    2, /* number of interfaces in this configuration */
+#    else
+    1,
+#    endif
+    1, /* index of this configuration */
+    0, /* configuration name string index */
+#    if USB_CFG_IS_SELF_POWERED
+    (1 << 7) | USBATTR_SELFPOWER, /* attributes */
+#    else
+    (1 << 7), /* attributes */
 #    endif
 
 #    if defined(RAW_ENABLE)
@@ -742,44 +688,32 @@ const PROGMEM usbConfigurationDescriptor_t usbConfigurationDescriptor = {
     /*
      * Shared
      */
-    .sharedInterface = {
-        .header = {
-            .bLength         = sizeof(usbInterfaceDescriptor_t),
-            .bDescriptorType = USBDESCR_INTERFACE
-        },
-        .bInterfaceNumber    = SHARED_INTERFACE,
-        .bAlternateSetting   = 0x00,
-        .bNumEndpoints       = 1,
-        .bInterfaceClass     = 0x03,
-#        ifdef KEYBOARD_SHARED_EP
-        .bInterfaceSubClass  = 0x01,
-        .bInterfaceProtocol  = 0x01,
-#        else
-        .bInterfaceSubClass  = 0x00,
-        .bInterfaceProtocol  = 0x00,
-#        endif
-        .iInterface          = 0x00
-    },
-    .sharedHID = {
-        .header = {
-            .bLength         = sizeof(usbHIDDescriptor_t),
-            .bDescriptorType = USBDESCR_HID
-        },
-        .bcdHID              = 0x0101,
-        .bCountryCode        = 0x00,
-        .bNumDescriptors     = 1,
-        .bDescriptorType     = USBDESCR_HID_REPORT,
-        .wDescriptorLength   = sizeof(shared_hid_report)
-    },
-    .sharedINEndpoint = {
-        .header = {
-            .bLength         = sizeof(usbEndpointDescriptor_t),
-            .bDescriptorType = USBDESCR_ENDPOINT
-        },
-#        ifdef KEYBOARD_SHARED_EP
-        .bEndpointAddress    = (USBRQ_DIR_DEVICE_TO_HOST | 1),
-#        else
-        .bEndpointAddress    = (USBRQ_DIR_DEVICE_TO_HOST | USB_CFG_EP3_NUMBER),
+    /* Interface descriptor */
+    9,                             /* sizeof(usbDescrInterface): length of descriptor in bytes */
+    USBDESCR_INTERFACE,            /* descriptor type */
+    1,                             /* index of this interface */
+    0,                             /* alternate setting for this interface */
+    USB_CFG_HAVE_INTRIN_ENDPOINT3, /* endpoints excl 0: number of endpoint descriptors to follow */
+    0x03,                          /* CLASS: HID */
+    0,                             /* SUBCLASS: none */
+    0,                             /* PROTOCOL: none */
+    0,                             /* string index for interface */
+    /* HID descriptor */
+    9,                                    /* sizeof(usbDescrHID): length of descriptor in bytes */
+    USBDESCR_HID,                         /* descriptor type: HID */
+    0x01, 0x01,                           /* BCD representation of HID version */
+    0x00,                                 /* target country code */
+    0x01,                                 /* number of HID Report (or other HID class) Descriptor infos to follow */
+    0x22,                                 /* descriptor type: report */
+    sizeof(mouse_extra_hid_report), 0,    /* total length of report descriptor */
+#        if USB_CFG_HAVE_INTRIN_ENDPOINT3 /* endpoint descriptor for endpoint 3 */
+    /* Endpoint descriptor */
+    7,                                 /* sizeof(usbDescrEndpoint) */
+    USBDESCR_ENDPOINT,                 /* descriptor type = endpoint */
+    (char)(0x80 | USB_CFG_EP3_NUMBER), /* IN endpoint number 3 */
+    0x03,                              /* attrib: Interrupt endpoint */
+    8, 0,                              /* maximum packet size */
+    USB_POLLING_INTERVAL_MS,           /* in ms */
 #        endif
         .bmAttributes        = 0x03,
         .wMaxPacketSize      = 8,
