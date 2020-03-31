@@ -110,7 +110,7 @@ bool                              udi_hid_mou_send_report(void);
 extern UDC_DESC_STORAGE udi_api_t udi_api_hid_raw;
 bool                              udi_hid_raw_send_report(void);
 bool                              udi_hid_raw_receive_report(void);
-#endif  // RAW_ENABLE
+#endif  // RAW
 
 //@}
 

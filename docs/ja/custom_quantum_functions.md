@@ -1,8 +1,8 @@
 # キーボードの挙動をカスタマイズする方法
 
 <!---
-  original document: 0.12.41:docs/custom_quantum_functions.md
-  git diff 0.12.41 HEAD -- docs/custom_quantum_functions.md | cat
+  original document: 0.8.62:docs/custom_quantum_functions.md
+  git diff 0.8.62 HEAD -- docs/custom_quantum_functions.md | cat
 -->
 
 多くの人にとって、カスタムキーボードはボタンの押下をコンピュータに送信するだけではありません。単純なボタンの押下やマクロよりも複雑なことを実行できるようにしたいでしょう。QMK にはコードを挿入したり、機能を上書きしたり、様々な状況でキーボードの挙動をカスタマイズできるフックがあります。
@@ -401,3 +401,56 @@ void eeconfig_init_user(void) {  // EEPROM がリセットされます！
 * キーマップ: `void eeconfig_init_user(void)`、`uint32_t eeconfig_read_user(void)` および `void eeconfig_update_user(uint32_t val)`
 
 `val` は EEPROM に書き込みたいデータの値です。`eeconfig_read_*` 関数は EEPROM から32ビット(DWORD) 値を返します。
+
+# カスタムタッピング期間
+
+デフォルトでは、タッピング期間と(`IGNORE_MOD_TAP_INTERRUPT` のような)関連オプションはグローバルに設定されていて、キーでは設定することができません。ほとんどのユーザにとって、これは全然問題ありません。しかし、場合によっては、`LT` キーとは異なるタイムアウトによって、デュアルファンクションキーが大幅に改善されます。なぜなら、一部のキーは他のキーよりも押し続けやすいためです。それぞれにカスタムキーコードを使う代わりに、キーごとに設定可能なタイムアウトの挙動を設定できます。
+
+キーごとのタイムアウトの挙動を制御するための2つの設定可能なオプションがあります:
+
+- `TAPPING_TERM_PER_KEY`
+- `IGNORE_MOD_TAP_INTERRUPT_PER_KEY`
+
+必要な機能ごとに、`config.h` に `#define` 行を追加する必要があります。
+
+```
+#define TAPPING_TERM_PER_KEY
+#define IGNORE_MOD_TAP_INTERRUPT_PER_KEY
+```
+
+
+## `get_tapping_term` の実装例
+
+キーコードに基づいて `TAPPING_TERM` を変更するには、次のようなものを `keymap.c` ファイルに追加します:
+
+```c
+uint16_t get_tapping_term(uint16_t keycode) {
+  switch (keycode) {
+    case SFT_T(KC_SPC):
+      return TAPPING_TERM + 1250;
+    case LT(1, KC_GRV):
+      return 130;
+    default:
+      return TAPPING_TERM;
+  }
+}
+```
+
+## `get_ignore_mod_tap_interrupt` の実装例
+
+キーコードに基づいて `IGNORE_MOD_TAP_INTERRUPT` の値を変更するには、次のようなものを `keymap.c` ファイルに追加します:
+
+```c
+bool get_ignore_mod_tap_interrupt(uint16_t keycode) {
+  switch (keycode) {
+    case SFT_T(KC_SPC):
+      return true;
+    default:
+      return false;
+  }
+}
+```
+
+## `get_tapping_term` / `get_ignore_mod_tap_interrupt` 関数のドキュメント
+
+ここにある他の多くの関数とは異なり、quantum あるいはキーボードレベルの関数を持つ必要はありません (または理由さえありません)。ここではユーザレベルの関数だけが有用なため、そのようにマークする必要はありません。

@@ -743,7 +743,7 @@ static void udi_hid_raw_report_rcvd(udd_ep_status_t status, iram_size_t nb_rcvd,
     }
 }
 
-#endif // RAW_ENABLE
+#endif //RAW
 
 //********************************************************************************************
 // CON

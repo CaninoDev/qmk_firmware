@@ -1,34 +1,10 @@
-import platform
-from subprocess import DEVNULL
-
-from milc import cli
-
-is_windows = 'windows' in platform.platform().lower()
+import subprocess
+from qmk.commands import run
 
 
 def check_subcommand(command, *args):
-    cmd = ['qmk', command, *args]
-    result = cli.run(cmd, stdin=DEVNULL, combined_output=True)
-    return result
-
-
-def check_subcommand_stdin(file_to_read, command, *args):
-    """Pipe content of a file to a command and return output.
-    """
-    with open(file_to_read, encoding='utf-8') as my_file:
-        cmd = ['qmk', command, *args]
-        result = cli.run(cmd, stdin=my_file, combined_output=True)
-    return result
-
-
-def check_returncode(result, expected=[0]):
-    """Print stdout if `result.returncode` does not match `expected`.
-    """
-    if result.returncode not in expected:
-        print('`%s` stdout:' % ' '.join(result.args))
-        print(result.stdout)
-        print('returncode:', result.returncode)
-    assert result.returncode in expected
+    cmd = ['bin/qmk', command] + list(args)
+    return run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
 
 def test_cformat():

@@ -2,12 +2,9 @@
 """
 import json
 import os
-import shutil
-from pathlib import Path
-from subprocess import DEVNULL
-from time import strftime
-
-from milc import cli
+import platform
+import subprocess
+import shlex
 
 import qmk.keymap
 from qmk.constants import KEYBOARD_OUTPUT_PREFIX
@@ -223,3 +220,19 @@ def parse_configurator_json(configurator_file):
             user_keymap['layout'] = aliases[orig_keyboard]['layouts'][user_keymap['layout']]
 
     return user_keymap
+
+
+def run(command, *args, **kwargs):
+    """Run a command with subprocess.run
+    """
+    platform_id = platform.platform().lower()
+
+    if isinstance(command, str):
+        raise TypeError('`command` must be a non-text sequence such as list or tuple.')
+
+    if 'windows' in platform_id:
+        safecmd = map(shlex.quote, command)
+        safecmd = ' '.join(safecmd)
+        command = [os.environ['SHELL'], '-c', safecmd]
+
+    return subprocess.run(command, *args, **kwargs)

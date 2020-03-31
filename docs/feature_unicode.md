@@ -112,14 +112,14 @@ Unicode input in QMK works by inputting a sequence of characters to the OS, sort
 
 The following input modes are available:
 
-* **`UC_MAC`**: macOS built-in Unicode hex input. Supports code points up to `0x10FFFF` (all possible code points).
+* **`UC_MAC`**: macOS built-in Unicode hex input. Supports code points up to `0xFFFF` (`0x10FFFF` with Unicode Map).
 
   To enable, go to _System Preferences > Keyboard > Input Sources_, add _Unicode Hex Input_ to the list (it's under _Other_), then activate it from the input dropdown in the Menu Bar.
-  By default, this mode uses the left Option key (`KC_LALT`) for Unicode input, but this can be changed by defining [`UNICODE_KEY_MAC`](#input-key-configuration) with a different keycode.
-
-  !> Using the _Unicode Hex Input_ input source may disable some Option-based shortcuts, such as Option+Left and Option+Right.
+  By default, this mode uses the left Option key (`KC_LALT`) for Unicode input, but this can be changed by defining [`UNICODE_KEY_MAC`](#input-key-configuration) with another keycode.
 
   !> `UC_OSX` is a deprecated alias of `UC_MAC` that will be removed in future versions of QMK. All new keymaps should use `UC_MAC`.
+
+  !> `UC_OSX` is a deprecated alias of `UC_MAC` that will be removed in a future version of QMK.
 
 * **`UC_LNX`**: Linux built-in IBus Unicode input. Supports code points up to `0x10FFFF` (all possible code points).
 
@@ -145,11 +145,15 @@ The following input modes are available:
 
 To set your desired input mode, add the following define to your `config.h`:
 
-```c
-#define UNICODE_SELECTED_MODES UC_LNX
-```
-
-This example sets the board's default input mode to `UC_LNX`. You can replace this with `UC_MAC`, `UC_WINC`, or any of the other modes listed [above](#input-modes). The board will automatically use the selected mode on startup, unless you manually switch to another mode (see [below](#keycodes)).
+|Keycode               |Alias    |Input Mode  |Description                                                   |
+|----------------------|---------|------------|--------------------------------------------------------------|
+|`UNICODE_MODE_FORWARD`|`UC_MOD` |Next in list|[Cycle](#input-mode-cycling) through selected modes           |
+|`UNICODE_MODE_REVERSE`|`UC_RMOD`|Prev in list|[Cycle](#input-mode-cycling) through selected modes in reverse|
+|`UNICODE_MODE_MAC`    |`UC_M_MA`|`UC_MAC`    |Switch to macOS input                                         |
+|`UNICODE_MODE_LNX`    |`UC_M_LN`|`UC_LNX`    |Switch to Linux input                                         |
+|`UNICODE_MODE_WIN`    |`UC_M_WI`|`UC_WIN`    |Switch to Windows input                                       |
+|`UNICODE_MODE_BSD`    |`UC_M_BS`|`UC_BSD`    |Switch to BSD input (not implemented)                         |
+|`UNICODE_MODE_WINC`   |`UC_M_WC`|`UC_WINC`   |Switch to Windows input using WinCompose                      |
 
 You can also select multiple input modes, which allows you to easily cycle through them using the `UC_MOD`/`UC_RMOD` keycodes.
 
@@ -218,7 +222,9 @@ You can customize the keys used to trigger Unicode input for macOS, Linux and Wi
 
 ## Sending Unicode Strings
 
-QMK provides several functions that allow you to send Unicode input to the host programmatically:
+```c
+#define UNICODE_SELECTED_MODES UC_MAC, UC_LNX, UC_WIN, UC_WINC
+```
 
 ### `send_unicode_string()`
 

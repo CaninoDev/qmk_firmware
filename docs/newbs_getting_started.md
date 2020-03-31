@@ -50,6 +50,7 @@ Then run the following command:
 
 Install the QMK CLI by running:
 
+    pacman -S git mingw-w64-x86_64-toolchain mingw-w64-x86_64-python3-pip
     python3 -m pip install qmk
 
 </details>
@@ -76,43 +77,9 @@ Install the QMK CLI by running:
 
 You will need to install Git and Python. It's very likely that you already have both, but if not, one of the following commands should install them:
 
-* Debian / Ubuntu / Devuan: `sudo apt install -y git python3-pip`
-* Fedora / Red Hat / CentOS: `sudo yum -y install git python3-pip`
-* Arch / Manjaro: `sudo pacman --needed --noconfirm -S git python-pip libffi`
-* Void: `sudo xbps-install -y git python3-pip`
-* Solus: `sudo eopkg -y install git python3`
-* Sabayon: `sudo equo install dev-vcs/git dev-python/pip`
-* Gentoo: `sudo emerge dev-vcs/git dev-python/pip`
-
-#### Installation
-
-Install the QMK CLI by running:
-
-    python3 -m pip install --user qmk
-
-#### Community Packages
-
-These packages are maintained by community members, so may not be up to date or completely functional. If you encounter problems, please report them to their respective maintainers.
-
-On Arch-based distros you can install the CLI from the official repositories (NOTE: at the time of writing this package marks some dependencies as optional that should not be):
-
-    sudo pacman -S qmk
-
-You can also try the `qmk-git` package from AUR:
-
-    yay -S qmk-git
-
-###  ** FreeBSD **
-
-#### Installation
-
-Install the FreeBSD package for QMK CLI by running:
-
-    pkg install -g "py*-qmk"
-
-NOTE: remember to follow the instructions printed at the end of installation (use `pkg info -Dg "py*-qmk"` to show them again).
-
-<!-- tabs:end -->
+* Debian / Ubuntu / Devuan: `apt-get install git python3 && python3 -m pip install qmk`
+* Fedora / Red Hat / CentOS: `yum install git python3 && python3 -m pip install qmk`
+* Arch: `yay -S qmk` (or use any other AUR Helper)
 
 ## 3. Run QMK Setup :id=set-up-qmk
 

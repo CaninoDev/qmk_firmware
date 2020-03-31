@@ -283,147 +283,56 @@ enum quantum_keycodes {
 #else
     MI_VEL_1,  // 5C93
 #endif
-    MI_VEL_2,   // 5C94
-    MI_VEL_3,   // 5C95
-    MI_VEL_4,   // 5C96
-    MI_VEL_5,   // 5C97
-    MI_VEL_6,   // 5C98
-    MI_VEL_7,   // 5C99
-    MI_VEL_8,   // 5C9A
-    MI_VEL_9,   // 5C9B
-    MI_VEL_10,  // 5C9C
-    MI_VELD,    // 5C9D
-    MI_VELU,    // 5C9E
 
-    MI_CH1,   // 5C9F
-    MI_CH2,   // 5CA0
-    MI_CH3,   // 5CA1
-    MI_CH4,   // 5CA2
-    MI_CH5,   // 5CA3
-    MI_CH6,   // 5CA4
-    MI_CH7,   // 5CA5
-    MI_CH8,   // 5CA6
-    MI_CH9,   // 5CA7
-    MI_CH10,  // 5CA8
-    MI_CH11,  // 5CA9
-    MI_CH12,  // 5CAA
-    MI_CH13,  // 5CAB
-    MI_CH14,  // 5CAC
-    MI_CH15,  // 5CAD
-    MI_CH16,  // 5CAE
-    MI_CHD,   // 5CAF
-    MI_CHU,   // 5CB0
+    EEPROM_RESET,
 
-    MI_ALLOFF,  // 5CB1
+    UNICODE_MODE_FORWARD,
+    UNICODE_MODE_REVERSE,
+    UNICODE_MODE_MAC,
+    UNICODE_MODE_LNX,
+    UNICODE_MODE_WIN,
+    UNICODE_MODE_BSD,
+    UNICODE_MODE_WINC,
 
-    MI_SUS,   // 5CB2
-    MI_PORT,  // 5CB3
-    MI_SOST,  // 5CB4
-    MI_SOFT,  // 5CB5
-    MI_LEG,   // 5CB6
+    HPT_ON,
+    HPT_OFF,
+    HPT_TOG,
+    HPT_RST,
+    HPT_FBK,
+    HPT_BUZ,
+    HPT_MODI,
+    HPT_MODD,
+    HPT_CONT,
+    HPT_CONI,
+    HPT_COND,
+    HPT_DWLI,
+    HPT_DWLD,
 
-    MI_MOD,    // 5CB7
-    MI_MODSD,  // 5CB8
-    MI_MODSU,  // 5CB9
+    // Left control, open paren
+    KC_LCPO,
 
-    MI_BENDD,  // 5CBA
-    MI_BENDU,  // 5CBB
+    // Right control, close paren
+    KC_RCPC,
 
-    // Backlight
-    BL_ON,    // 5CBC
-    BL_OFF,   // 5CBD
-    BL_DEC,   // 5CBE
-    BL_INC,   // 5CBF
-    BL_TOGG,  // 5CC0
-    BL_STEP,  // 5CC1
-    BL_BRTG,  // 5CC2
+    // Left control, open paren
+    KC_LAPO,
 
-    // RGB underglow/matrix
-    RGB_TOG,            // 5CC3
-    RGB_MODE_FORWARD,   // 5CC4
-    RGB_MODE_REVERSE,   // 5CC5
-    RGB_HUI,            // 5CC6
-    RGB_HUD,            // 5CC7
-    RGB_SAI,            // 5CC8
-    RGB_SAD,            // 5CC9
-    RGB_VAI,            // 5CCA
-    RGB_VAD,            // 5CCB
-    RGB_SPI,            // 5CCC
-    RGB_SPD,            // 5CCD
-    RGB_MODE_PLAIN,     // 5CCE
-    RGB_MODE_BREATHE,   // 5CCF
-    RGB_MODE_RAINBOW,   // 5CD0
-    RGB_MODE_SWIRL,     // 5CD1
-    RGB_MODE_SNAKE,     // 5CD2
-    RGB_MODE_KNIGHT,    // 5CD3
-    RGB_MODE_XMAS,      // 5CD4
-    RGB_MODE_GRADIENT,  // 5CD5
-    RGB_MODE_RGBTEST,   // 5CD6
+    // Right control, close paren
+    KC_RAPC,
 
-    // Velocikey
-    VLK_TOG,  // 5CD7
+    CMB_ON,
+    CMB_OFF,
+    CMB_TOG,
 
-    // Space Cadet
-    KC_LSPO,    // 5CD8
-    KC_RSPC,    // 5CD9
-    KC_SFTENT,  // 5CDA
-
-    // Thermal Printer
-    PRINT_ON,   // 5CDB
-    PRINT_OFF,  // 5CDC
-
-    // Bluetooth: output selection
-    OUT_AUTO,  // 5CDD
-    OUT_USB,   // 5CDE
-
-    // Clear EEPROM
-    EEPROM_RESET,  // 5CDF
-
-    // Unicode
-    UNICODE_MODE_FORWARD,  // 5CE0
-    UNICODE_MODE_REVERSE,  // 5CE1
-    UNICODE_MODE_MAC,      // 5CE2
-    UNICODE_MODE_LNX,      // 5CE3
-    UNICODE_MODE_WIN,      // 5CE4
-    UNICODE_MODE_BSD,      // 5CE5
-    UNICODE_MODE_WINC,     // 5CE6
-
-    // Haptic
-    HPT_ON,    // 5CE7
-    HPT_OFF,   // 5CE8
-    HPT_TOG,   // 5CE9
-    HPT_RST,   // 5CEA
-    HPT_FBK,   // 5CEB
-    HPT_BUZ,   // 5CEC
-    HPT_MODI,  // 5CED
-    HPT_MODD,  // 5CEE
-    HPT_CONT,  // 5CEF
-    HPT_CONI,  // 5CF0
-    HPT_COND,  // 5CF1
-    HPT_DWLI,  // 5CF2
-    HPT_DWLD,  // 5CF3
-
-    // Space Cadet (continued)
-    KC_LCPO,  // 5CF4
-    KC_RCPC,  // 5CF5
-    KC_LAPO,  // 5CF6
-    KC_RAPC,  // 5CF7
-
-    // Combos
-    CMB_ON,   // 5CF8
-    CMB_OFF,  // 5CF9
-    CMB_TOG,  // 5CFA
-
-    // Magic (continued)
-    MAGIC_SWAP_LCTL_LGUI,    // 5CFB
-    MAGIC_SWAP_RCTL_RGUI,    // 5CFC
-    MAGIC_UNSWAP_LCTL_LGUI,  // 5CFD
-    MAGIC_UNSWAP_RCTL_RGUI,  // 5CFE
-    MAGIC_SWAP_CTL_GUI,      // 5CFF
-    MAGIC_UNSWAP_CTL_GUI,    // 5D00
-    MAGIC_TOGGLE_CTL_GUI,    // 5D01
-    MAGIC_EE_HANDS_LEFT,     // 5D02
-    MAGIC_EE_HANDS_RIGHT,    // 5D03
+    MAGIC_SWAP_LCTL_LGUI,
+    MAGIC_SWAP_RCTL_RGUI,
+    MAGIC_UNSWAP_LCTL_LGUI,
+    MAGIC_UNSWAP_RCTL_RGUI,
+    MAGIC_SWAP_CTL_GUI,
+    MAGIC_UNSWAP_CTL_GUI,
+    MAGIC_TOGGLE_CTL_GUI,
+    MAGIC_EE_HANDS_LEFT,
+    MAGIC_EE_HANDS_RIGHT,
 
     // Dynamic Macros
     DYN_REC_START1,   // 5D04
@@ -800,7 +709,7 @@ enum quantum_keycodes {
 
 #define UC_M_MA UNICODE_MODE_MAC
 #define UNICODE_MODE_OSX UNICODE_MODE_MAC  // Deprecated alias
-#define UC_M_OS UNICODE_MODE_MAC  // Deprecated alias
+#define UC_M_OS UNICODE_MODE_MAC           // Deprecated alias
 #define UC_M_LN UNICODE_MODE_LNX
 #define UC_M_WI UNICODE_MODE_WIN
 #define UC_M_BS UNICODE_MODE_BSD

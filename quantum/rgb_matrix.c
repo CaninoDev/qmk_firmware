@@ -117,9 +117,13 @@ __attribute__((weak)) RGB rgb_matrix_hsv_to_rgb(HSV hsv) { return hsv_to_rgb(hsv
 #    define RGB_MATRIX_STARTUP_SPD UINT8_MAX / 2
 #endif
 
-// globals
-rgb_config_t rgb_matrix_config;  // TODO: would like to prefix this with g_ for global consistancy, do this in another pr
-uint32_t     g_rgb_timer;
+bool g_suspend_state = false;
+
+rgb_config_t rgb_matrix_config;
+
+rgb_counters_t  g_rgb_counters;
+static uint32_t rgb_counters_buffer;
+
 #ifdef RGB_MATRIX_FRAMEBUFFER_EFFECTS
 uint8_t g_rgb_frame_buffer[MATRIX_ROWS][MATRIX_COLS] = {{0}};
 #endif  // RGB_MATRIX_FRAMEBUFFER_EFFECTS

@@ -1,8 +1,8 @@
 # QMK CLI :id=qmk-cli
 
 <!---
-  original document: 0.9.19:docs/cli.md
-  git diff 0.9.19 HEAD -- docs/cli.md | cat
+  original document: 0.8.58:docs/cli.md
+  git diff 0.8.58 HEAD -- docs/cli.md | cat
 -->
 
 ## 概要 :id=overview
@@ -11,7 +11,7 @@ QMK CLI を使用すると QMK キーボードの構築と作業が簡単にな�
 
 ### 必要事項 :id=requirements
 
-QMK は Python 3.6 以上を必要とします。我々は必要事項の数を少なくしようとしていますが、[`requirements.txt`](https://github.com/qmk/qmk_firmware/blob/master/requirements.txt) に列挙されているパッケージもインストールする必要があります。これらは QMK CLI をインストールするときに自動的にインストールされます。
+CLI は Python 3.5 以上を必要とします。我々は必要事項の数を少なくしようとしていますが、[`requirements.txt`](https://github.com/qmk/qmk_firmware/blob/master/requirements.txt) に列挙されているパッケージもインストールする必要があります。これらは QMK CLI をインストールするときに自動的にインストールされます。
 
 ### Homebrew を使ったインストール (macOS、いくつかの Linux) :id=install-using-homebrew
 
@@ -23,7 +23,7 @@ export QMK_HOME='~/qmk_firmware' # オプション、`qmk_firmware` の場所を
 qmk setup  # これは `qmk/qmk_firmware` をクローンし、オプションでビルド環境をセットアップします
 ```
 
-### pip を使ってインストール :id=install-using-easy_install-or-pip
+### easy_install あるいは pip を使ってインストール :id=install-using-easy_install-or-pip
 
 上で列挙した中にあなたのシステムがない場合は、QMK を手動でインストールすることができます。最初に、python 3.6 (以降)をインストールしていて、pip をインストールしていることを確認してください。次に以下のコマンドを使って QMK をインストールします:
 

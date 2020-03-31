@@ -42,3 +42,11 @@ endif
 ifeq ($(strip $(KEYBOARD)), kiwikey/wanderland)
   SRC += rgb_timeout.c
 endif
+ifeq ($(strip $(KEYBOARD)), dz60)
+  VIA_ENABLE = yes
+  LTO_ENABLE = yes
+endif
+ifeq ($(strip $(KEYBOARD)), projectkb/alice)
+  VIA_ENABLE = yes
+  LTO_ENABLE = no
+endif

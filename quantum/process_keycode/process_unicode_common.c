@@ -328,11 +328,40 @@ bool process_unicode_common(uint16_t keycode, keyrecord_t *record) {
                 audio_helper();
                 break;
 
-            case UNICODE_MODE_MAC ... UNICODE_MODE_WINC: {
-                // Keycodes and input modes follow the same ordering
-                uint8_t delta = keycode - UNICODE_MODE_MAC;
-                set_unicode_input_mode(UC_MAC + delta);
-                audio_helper();
+            case UNICODE_MODE_MAC:
+                set_unicode_input_mode(UC_MAC);
+#if defined(AUDIO_ENABLE) && defined(UNICODE_SONG_MAC)
+                static float song_mac[][2] = UNICODE_SONG_MAC;
+                PLAY_SONG(song_mac);
+#endif
+                break;
+            case UNICODE_MODE_LNX:
+                set_unicode_input_mode(UC_LNX);
+#if defined(AUDIO_ENABLE) && defined(UNICODE_SONG_LNX)
+                static float song_lnx[][2] = UNICODE_SONG_LNX;
+                PLAY_SONG(song_lnx);
+#endif
+                break;
+            case UNICODE_MODE_WIN:
+                set_unicode_input_mode(UC_WIN);
+#if defined(AUDIO_ENABLE) && defined(UNICODE_SONG_WIN)
+                static float song_win[][2] = UNICODE_SONG_WIN;
+                PLAY_SONG(song_win);
+#endif
+                break;
+            case UNICODE_MODE_BSD:
+                set_unicode_input_mode(UC_BSD);
+#if defined(AUDIO_ENABLE) && defined(UNICODE_SONG_BSD)
+                static float song_bsd[][2] = UNICODE_SONG_BSD;
+                PLAY_SONG(song_bsd);
+#endif
+                break;
+            case UNICODE_MODE_WINC:
+                set_unicode_input_mode(UC_WINC);
+#if defined(AUDIO_ENABLE) && defined(UNICODE_SONG_WINC)
+                static float song_winc[][2] = UNICODE_SONG_WINC;
+                PLAY_SONG(song_winc);
+#endif
                 break;
             }
         }

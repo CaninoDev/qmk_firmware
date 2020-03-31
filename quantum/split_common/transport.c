@@ -430,23 +430,6 @@ void transport_slave(matrix_row_t master_matrix[], matrix_row_t slave_matrix[]) 
 #    ifdef WPM_ENABLE
     set_current_wpm(serial_m2s_buffer.current_wpm);
 #    endif
-
-#    ifdef SPLIT_MODS_ENABLE
-    set_mods(serial_m2s_buffer.real_mods);
-    set_weak_mods(serial_m2s_buffer.weak_mods);
-#        ifndef NO_ACTION_ONESHOT
-    set_oneshot_mods(serial_m2s_buffer.oneshot_mods);
-#        endif
-#    endif
-
-#    if defined(LED_MATRIX_ENABLE) && defined(LED_MATRIX_SPLIT)
-    led_matrix_eeconfig = serial_m2s_buffer.led_matrix;
-    led_matrix_set_suspend_state(serial_m2s_buffer.led_suspend_state);
-#    endif
-#    if defined(RGB_MATRIX_ENABLE) && defined(RGB_MATRIX_SPLIT)
-    rgb_matrix_config = serial_m2s_buffer.rgb_matrix;
-    rgb_matrix_set_suspend_state(serial_m2s_buffer.rgb_suspend_state);
-#    endif
 }
 
 #endif

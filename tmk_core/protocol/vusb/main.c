@@ -22,10 +22,11 @@
 #include "keyboard.h"
 #include "host.h"
 #include "timer.h"
-#include "print.h"
-#include "suspend.h"
-#include "wait.h"
-#include "sendchar.h"
+#include "uart.h"
+#include "debug.h"
+#ifdef SLEEP_LED_ENABLE
+#    include "sleep_led.h"
+#endif
 
 #ifdef SLEEP_LED_ENABLE
 #    include "sleep_led.h"
@@ -120,8 +121,7 @@ int main(void) {
     keyboard_init();
     host_set_driver(vusb_driver());
 
-    wait_ms(50);
-
+    keyboard_init();
 #ifdef SLEEP_LED_ENABLE
     sleep_led_init();
 #endif
@@ -130,14 +130,30 @@ int main(void) {
 #if USB_COUNT_SOF
         if (usbSofCount != 0) {
             usbSofCount = 0;
-            sof_timer   = timer_read();
-            if (vusb_suspended) {
-                vusb_wakeup();
-            }
+            last_timer  = timer_read();
+#    ifdef SLEEP_LED_ENABLE
+            sleep_led_disable();
+#    endif
         } else {
             // Suspend when no SOF in 3ms-10ms(7.1.7.4 Suspending of USB1.1)
-            if (!vusb_suspended && timer_elapsed(sof_timer) > 5) {
-                vusb_suspend();
+            if (timer_elapsed(last_timer) > 5) {
+                suspended = true;
+#    ifdef SLEEP_LED_ENABLE
+                sleep_led_enable();
+#    endif
+                /*
+                                uart_putchar('S');
+                                _delay_ms(1);
+                                cli();
+                                set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+                                sleep_enable();
+                                sleep_bod_disable();
+                                sei();
+                                sleep_cpu();
+                                sleep_disable();
+                                _delay_ms(10);
+                                uart_putchar('W');
+                */
             }
         }
 #endif
@@ -155,7 +171,6 @@ int main(void) {
                 keyboard_task();
             }
             vusb_transfer_keyboard();
-
 #ifdef RAW_ENABLE
             usbPoll();
 
@@ -163,17 +178,6 @@ int main(void) {
                 raw_hid_task();
             }
 #endif
-
-#ifdef CONSOLE_ENABLE
-            usbPoll();
-
-            if (usbConfiguration && usbInterruptIsReady3()) {
-                console_task();
-            }
-#endif
-
-            // Run housekeeping
-            housekeeping_task();
         }
     }
 }

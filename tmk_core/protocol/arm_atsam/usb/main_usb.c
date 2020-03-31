@@ -18,6 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "samd51j18a.h"
 #include "conf_usb.h"
 #include "udd.h"
+#ifdef RAW
+#    include "raw_hid.h"
+#endif
 
 #ifdef RAW_ENABLE
 #    include "raw_hid.h"

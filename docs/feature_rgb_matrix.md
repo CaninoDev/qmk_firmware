@@ -556,8 +556,8 @@ Where `28` is an unused index from `eeconfig.h`.
 |`rgb_matrix_toggle_noeeprom()`              |Toggle effect range LEDs between on and off (not written to EEPROM) |
 |`rgb_matrix_enable()`                       |Turn effect range LEDs on, based on their previous state |
 |`rgb_matrix_enable_noeeprom()`              |Turn effect range LEDs on, based on their previous state (not written to EEPROM) |
-|`rgb_matrix_disable()`                      |Turn effect range LEDs off, based on their previous state |
-|`rgb_matrix_disable_noeeprom()`             |Turn effect range LEDs off, based on their previous state (not written to EEPROM) |
+|`rgb_matrix_disable()`                      |Turn effect range LEDs off |
+|`rgb_matrix_disable_noeeprom()`             |Turn effect range LEDs off (not written to EEPROM) |
 
 ### Change Effect Mode :id=change-effect-mode
 |Function                                    |Description  |
@@ -565,45 +565,29 @@ Where `28` is an unused index from `eeconfig.h`.
 |`rgb_matrix_mode(mode)`                     |Set the mode, if RGB animations are enabled |
 |`rgb_matrix_mode_noeeprom(mode)`            |Set the mode, if RGB animations are enabled (not written to EEPROM) |
 |`rgb_matrix_step()`                         |Change the mode to the next RGB animation in the list of enabled RGB animations |
-|`rgb_matrix_step_noeeprom()`                |Change the mode to the next RGB animation in the list of enabled RGB animations (not written to EEPROM) |
 |`rgb_matrix_step_reverse()`                 |Change the mode to the previous RGB animation in the list of enabled RGB animations |
-|`rgb_matrix_step_reverse_noeeprom()`        |Change the mode to the previous RGB animation in the list of enabled RGB animations (not written to EEPROM) |
-|`rgb_matrix_increase_speed()`               |Increase the speed of the animations |
-|`rgb_matrix_increase_speed_noeeprom()`      |Increase the speed of the animations (not written to EEPROM) |
-|`rgb_matrix_decrease_speed()`               |Decrease the speed of the animations |
-|`rgb_matrix_decrease_speed_noeeprom()`      |Decrease the speed of the animations (not written to EEPROM) |
-|`rgb_matrix_set_speed(speed)`               |Set the speed of the animations to the given value where `speed` is between 0 and 255 |
-|`rgb_matrix_set_speed_noeeprom(speed)`      |Set the speed of the animations to the given value where `speed` is between 0 and 255 (not written to EEPROM) |
+|`rgb_matrix_increase_speed()`               |Increases the speed of the animations |
+|`rgb_matrix_decrease_speed()`               |Decreases the speed of the animations |
 
 ### Change Color :id=change-color
 |Function                                    |Description  |
 |--------------------------------------------|-------------|
 |`rgb_matrix_increase_hue()`                 |Increase the hue for effect range LEDs. This wraps around at maximum hue |
-|`rgb_matrix_increase_hue_noeeprom()`        |Increase the hue for effect range LEDs. This wraps around at maximum hue (not written to EEPROM) |
 |`rgb_matrix_decrease_hue()`                 |Decrease the hue for effect range LEDs. This wraps around at minimum hue |
-|`rgb_matrix_decrease_hue_noeeprom()`        |Decrease the hue for effect range LEDs. This wraps around at minimum hue (not written to EEPROM) |
 |`rgb_matrix_increase_sat()`                 |Increase the saturation for effect range LEDs. This wraps around at maximum saturation |
-|`rgb_matrix_increase_sat_noeeprom()`        |Increase the saturation for effect range LEDs. This wraps around at maximum saturation (not written to EEPROM) |
 |`rgb_matrix_decrease_sat()`                 |Decrease the saturation for effect range LEDs. This wraps around at minimum saturation |
-|`rgb_matrix_decrease_sat_noeeprom()`        |Decrease the saturation for effect range LEDs. This wraps around at minimum saturation (not written to EEPROM) |
 |`rgb_matrix_increase_val()`                 |Increase the value for effect range LEDs. This wraps around at maximum value |
-|`rgb_matrix_increase_val_noeeprom()`        |Increase the value for effect range LEDs. This wraps around at maximum value (not written to EEPROM) |
 |`rgb_matrix_decrease_val()`                 |Decrease the value for effect range LEDs. This wraps around at minimum value |
-|`rgb_matrix_decrease_val_noeeprom()`        |Decrease the value for effect range LEDs. This wraps around at minimum value (not written to EEPROM) |
 |`rgb_matrix_sethsv(h, s, v)`                |Set LEDs to the given HSV value where `h`/`s`/`v` are between 0 and 255 |
 |`rgb_matrix_sethsv_noeeprom(h, s, v)`       |Set LEDs to the given HSV value where `h`/`s`/`v` are between 0 and 255 (not written to EEPROM) |
 
 ### Query Current Status :id=query-current-status
-|Function                         |Description                |
-|---------------------------------|---------------------------|
-|`rgb_matrix_is_enabled()`        |Gets current on/off status |
-|`rgb_matrix_get_mode()`          |Gets current mode          |
-|`rgb_matrix_get_hue()`           |Gets current hue           |
-|`rgb_matrix_get_sat()`           |Gets current sat           |
-|`rgb_matrix_get_val()`           |Gets current val           |
-|`rgb_matrix_get_hsv()`           |Gets hue, sat, and val and returns a [`HSV` structure](https://github.com/qmk/qmk_firmware/blob/7ba6456c0b2e041bb9f97dbed265c5b8b4b12192/quantum/color.h#L56-L61)|
-|`rgb_matrix_get_speed()`         |Gets current speed         |
-|`rgb_matrix_get_suspend_state()` |Gets current suspend state |
+|Function               |Description      |
+|-----------------------|-----------------|
+|`rgb_matrix_get_mode()`  |Get current mode |
+|`rgb_matrix_get_hue()`   |Get current hue  |
+|`rgb_matrix_get_sat()`   |Get current sat  |
+|`rgb_matrix_get_val()`   |Get current val  |
 
 ## Callbacks :id=callbacks
 
@@ -613,47 +597,6 @@ If you want to set custom indicators, such as an LED for Caps Lock, or layer ind
 ```c
 void rgb_matrix_indicators_kb(void) {
     rgb_matrix_set_color(index, red, green, blue);
-}
-```
-
-In addition, there are the advanced indicator functions.  These are aimed at those with heavily customized displays, where rendering every LED per cycle is expensive.  Such as some of the "drashna" layouts.  This includes a special macro to help make this easier to use: `RGB_MATRIX_INDICATOR_SET_COLOR(i, r, g, b)`.
-
-```c
-void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    RGB_MATRIX_INDICATOR_SET_COLOR(index, red, green, blue);
-}
-```
-
-### Indicator Examples :id=indicator-examples
-
-Caps Lock indicator on alphanumeric flagged keys:
-```c
-void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    if (host_keyboard_led_state().caps_lock) {
-        for (uint8_t i = led_min; i <= led_max; i++) {
-            if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
-                rgb_matrix_set_color(i, RGB_RED);
-            }
-        }
-    }
-}
-```
-
-Layer indicator on all flagged keys:
-```c
-void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    for (uint8_t i = led_min; i <= led_max; i++) {
-        switch(get_highest_layer(layer_state|default_layer_state)) {
-            case RAISE:
-                rgb_matrix_set_color(i, RGB_BLUE);
-                break;
-            case LOWER:
-                rgb_matrix_set_color(i, RGB_YELLOW);
-                break;
-            default:
-                break;
-        }
-    }
 }
 ```
 
