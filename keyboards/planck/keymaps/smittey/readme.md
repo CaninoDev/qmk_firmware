@@ -1,4 +1,4 @@
-# Planck Layout created by [Smittey](https://github.com/smittey) 
+u# Planck Layout created by [Smittey](https://github.com/smittey) 
 
 A layout with a focus around coding, utilising the home row for symbols. There is an additional FN layer and Space function layer
 
