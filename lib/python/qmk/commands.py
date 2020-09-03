@@ -1,7 +1,13 @@
 """Helper functions for commands.
 """
 import json
+import os
+import platform
+import subprocess
+import shlex
+import shutil
 
+from milc import cli
 import qmk.keymap
 
 
@@ -24,11 +30,12 @@ def create_make_command(keyboard, keymap, target=None):
         A command that can be run to make the specified keyboard and keymap
     """
     make_args = [keyboard, keymap]
+    make_cmd = 'gmake' if shutil.which('gmake') else 'make'
 
     if target:
         make_args.append(target)
 
-    return ['make', ':'.join(make_args)]
+    return [make_cmd, ':'.join(make_args)]
 
 
 def compile_configurator_json(user_keymap, bootloader=None):
@@ -58,6 +65,25 @@ def compile_configurator_json(user_keymap, bootloader=None):
 def parse_configurator_json(configurator_file):
     """Open and parse a configurator json export
     """
+    # FIXME(skullydazed/anyone): Add validation here
     user_keymap = json.load(configurator_file)
 
     return user_keymap
+
+
+def run(command, *args, **kwargs):
+    """Run a command with subprocess.run
+    """
+    platform_id = platform.platform().lower()
+
+    if isinstance(command, str):
+        raise TypeError('`command` must be a non-text sequence such as list or tuple.')
+
+    if 'windows' in platform_id:
+        safecmd = map(shlex.quote, command)
+        safecmd = ' '.join(safecmd)
+        command = [os.environ['SHELL'], '-c', safecmd]
+
+    cli.log.debug('Running command: %s', command)
+
+    return subprocess.run(command, *args, **kwargs)
