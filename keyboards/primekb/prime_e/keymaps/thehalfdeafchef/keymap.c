@@ -79,16 +79,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     * |------+------+------+------+------+-------------+------+------+------+------+--------------|
     * |      | F1   | F2   | F3   | F4   | F5   |      |  %   |  *   |   &  |   =  |              |
     * |------+------+------+------+------+------|------+------+------+------+------+--------------|
-    * |      |      |      |      |      |      |      |  _   |  -   |  @   |   ~  |  |   |
+    * |      | F6   | F7   | F8   | F9   | F10  |      |  _   |  -   |  @   |   ~  |  |   |
     * |------+------+------+------+------+------+------+------+------+------+------+------+-------|
     * |      |      |      |      |             |             |             |      |      |       |
     * `-------------------------------------------------------------------------------------------'
     */
     LAYOUT(
             KC_TRNS       , CON_F1      , CON_F2      , CON_F3      , CON_F4      , CON_F5      , KC_GRV,  KC_EXLM, KC_HASH, KC_DLR,  KC_PLUS, KC_CIRC,
-            KC_TRNS       , KC_F1       , KC_F2,        KC_F3,        KC_F4,        KC_F5,        KC_TRNS, KC_TRNS, KC_PERC, KC_ASTR, KC_AMPR, KC_EQL,   KC_TRNS,
-            KC_TRNS       , KC_TRNS     , KC_TRNS,      KC_TRNS,      KC_TRNS,      KC_TRNS,      KC_TRNS, KC_UNDS, KC_MINS, KC_AT,   KC_TILDE, KC_PIPE,
-            KC_TRNS       , KC_TRNS     , KC_TRNS,      KC_TRNS,      KC_TRNS,      KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
+            KC_TRNS       , KC_F1       , KC_F2				, KC_F3       , KC_F4       , KC_F5       , KC_TRNS, KC_TRNS, KC_PERC, KC_ASTR, KC_AMPR, KC_EQL,   KC_TRNS,
+            KC_TRNS       , KC_F6       , KC_F7       , KC_F8       , KC_F9       , KC_F10      , KC_TRNS, KC_UNDS, KC_MINS, KC_AT,   KC_TILDE, KC_PIPE,
+            KC_TRNS       , KC_TRNS     , KC_TRNS,      KC_TRNS,      KC_TRNS,      KC_TRNS     , KC_TRNS, KC_TRNS, KC_TRNS
     )
 };
 
